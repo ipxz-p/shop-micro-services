@@ -1,17 +1,23 @@
 import Fastify from "fastify";
+import { clerkPlugin } from "@clerk/fastify";
 
 const fastify = Fastify();
+fastify.register(clerkPlugin);
 
 fastify.get("/", async (request, reply) => {
-    return {
-        message: "order World",
-    };
+  return {
+    message: "order World12345",
+  };
 });
 
-fastify.listen({ port: 8001 }, (err, address) => {
-    if (err) {
-        fastify.log.error(err);
-        process.exit(1);
-    }
-    fastify.log.info(`Order service is running on ${address}`);
-});
+const start = async () => {
+  try {
+    await fastify.listen({ port: 8001 });
+    console.log("Order service is running on port 8001");
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+start();
